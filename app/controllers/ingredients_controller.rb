@@ -4,7 +4,24 @@ class IngredientsController < ApplicationController
 
   # GET /ingredients or /ingredients.json
   def index
-    @ingredients = Ingredient.all
+    if params[:q]
+      @ingredients = Ingredient.where('lower(name) LIKE ?', "%#{params[:q]}%").all
+    else
+      @ingredients = Ingredient.all
+    end
+    respond_to do |format|
+      format.json { render json: @ingredients, layout: false}
+      format.html {}
+    end
+  end
+
+  def search
+    if params[:q]
+      @ingredients = Ingredient.where('lower(name) LIKE ?', "%#{params[:q]}%").all
+    else
+      @ingredients = []
+    end
+    render layout: false
   end
 
   # GET /ingredients/1 or /ingredients/1.json

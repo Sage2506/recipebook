@@ -1,3 +1,4 @@
+<div data-controller="dish-form">
 <%= form_with(model: dish, class: "contents") do |form| %>
   <% if dish.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
@@ -21,7 +22,24 @@
     <%= form.text_area :description, rows: 4, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
+  <div class="my-5">
+    <div data-controller="autocomplete" data-autocomplete-url-value="/search/ingredients">
+      <input type="text" class="w-full" data-autocomplete-target="input" placeholder="Type to search..."/>
+      <ul data-autocomplete-target="results">
+
+      </ul>
+    </div>
+  </div>
+
+  <div id= "search-data" class="my-5" data-ingredients="<%= ingredients.to_json %>" data-dish-form-target="autocomplete">
+    <%= text_field_tag :q, nil, autocomplete: :off, "data-dish-form-target"=> "search", class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder: "Search by programming language..." %>
+  </div>
+  <div data-dish-form-target="component"> Elemento react</div>
   <div class="inline">
     <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
   </div>
+
+
+
 <% end %>
+</div>

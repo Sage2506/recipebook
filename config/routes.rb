@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
     registrations: "users/registrations"
   }
+
+  get '/search/ingredients', to: 'ingredients#search'
   resources :dishes
   authenticated do
     root to: "dishes#index", as: :authenticated_root

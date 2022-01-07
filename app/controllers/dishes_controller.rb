@@ -13,10 +13,12 @@ class DishesController < ApplicationController
   # GET /dishes/new
   def new
     @dish = Dish.new
+    @ingredients = Ingredient.all.sort
   end
 
   # GET /dishes/1/edit
   def edit
+    @ingredients = Ingredient.all.sort
   end
 
   # POST /dishes or /dishes.json
