@@ -1,25 +1,27 @@
+# frozen_string_literal: true
+
 class Dish < ApplicationRecord
-    validates :name, presence: true
-    validates :description, presence: true
+  validates :name, presence: true
+  validates :description, presence: true
 
-    has_many :dish_ingredients, dependent: :destroy
-    has_many :ingredients, through: :dish_ingredients
+  has_many :dish_ingredients, dependent: :destroy
+  has_many :ingredients, through: :dish_ingredients
 
-    def save_ingredients(ingredients)
-        result = true
-        DishIngredient.transaction do
-          ingredients.each do |ingredient|
-            logger.info "@----------------------------------------------------- Dish id: #{self.id} "
-            new_dish_ingredient = DishIngredient.new(
-              dish_id: self.id,
-              ingredient_id: ingredient,
-            )
-            if !new_dish_ingredient.save
-              result = false
-              raise ActiveRecord::Rollback, "Dish Ingredient not saved"
-            end
-          end
+  def save_ingredients(ingredients)
+    result = true
+    DishIngredient.transaction do
+      ingredients.each do |ingredient|
+        logger.info "@----------------------------------------------------- Dish id: #{id} "
+        new_dish_ingredient = DishIngredient.new(
+          dish_id: id,
+          ingredient_id: ingredient
+        )
+        unless new_dish_ingredient.save
+          result = false
+          raise ActiveRecord::Rollback, 'Dish Ingredient not saved'
         end
-        return result
       end
+    end
+    result
+  end
 end

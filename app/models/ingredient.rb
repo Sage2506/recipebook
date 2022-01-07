@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 class Ingredient < ApplicationRecord
-    has_many :dish_ingredients
-    has_many :dishes, through: :dish_ingredients
+  has_many :dish_ingredients
+  has_many :dishes, through: :dish_ingredients
 
-    validates :name, presence: true
-    validates :description, presence: true
-
+  validates :name, presence: true
+  validates :description, presence: true
 end
