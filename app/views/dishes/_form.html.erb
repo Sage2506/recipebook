@@ -25,6 +25,7 @@
   <div class="my-5">
     <label>Ingredientes</label>
     <ul class="divide-y  shadow-lg" data-dish-form-target="ingredientsList" >
+
     </ul>
   </div>
 
@@ -34,7 +35,6 @@
     <input
       type="text"
       data-dish-form-target="ingredientAutocomplete"
-      data-ingredients="<%= ingredients.to_json %>"
       class="z-0 block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full"
       >
     <div class="absolute top-2 right-2">
@@ -48,7 +48,8 @@
         >+</button>
     </div>
     </div>
-    <ul data-dish-form-target="suggestions" class="divide-y rounded-md shadow-lg"></ul>
+    <ul data-dish-form-target="suggestions" class="divide-y rounded-md shadow-lg">
+    </ul>
   </div>
 
   <div class="inline">

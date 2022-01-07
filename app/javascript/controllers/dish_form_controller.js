@@ -97,7 +97,7 @@ export default class extends Controller {
   connect() {
     if(!!document.getElementById('autocompleteArea')){
         window.addEventListener('click', (e) => {
-        if (!document.getElementById('autocompleteArea').contains(e.target)){
+        if (!!document.getElementById('autocompleteArea') && !document.getElementById('autocompleteArea').contains(e.target)){
           this.suggestionsTarget.innerHTML = ``
         }
       })

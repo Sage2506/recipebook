@@ -13,18 +13,16 @@ class DishesController < ApplicationController
   # GET /dishes/new
   def new
     @dish = Dish.new
-    @ingredients = Ingredient.all.sort
   end
 
   # GET /dishes/1/edit
   def edit
-    @ingredients = Ingredient.all.sort
   end
 
   # POST /dishes or /dishes.json
   def create
     @dish = Dish.new(dish_params)
-
+    dish.save_ingredients(params[:ingredients])
     respond_to do |format|
       if @dish.save
         format.html { redirect_to dish_url(@dish), notice: "Dish was successfully created." }
@@ -63,10 +61,12 @@ class DishesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_dish
       @dish = Dish.find(params[:id])
+      @ingredients = @dish.ingredients
+
     end
 
     # Only allow a list of trusted parameters through.
     def dish_params
-      params.require(:dish).permit(:name, :description)
+      params.require(:dish).permit(:name, :description, :ingredients)
     end
 end
