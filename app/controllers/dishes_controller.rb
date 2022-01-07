@@ -8,6 +8,7 @@ class DishesController < ApplicationController
 
   # GET /dishes/1 or /dishes/1.json
   def show
+    logger.info "@----------------------------------------------------- Dish id: #{@dish.id} "
   end
 
   # GET /dishes/new
@@ -17,14 +18,15 @@ class DishesController < ApplicationController
 
   # GET /dishes/1/edit
   def edit
+    logger.info "@----------------------------------------------------- Dish id: #{@dish.id} "
   end
 
   # POST /dishes or /dishes.json
   def create
     @dish = Dish.new(dish_params)
-    dish.save_ingredients(params[:ingredients])
     respond_to do |format|
       if @dish.save
+        @dish.save_ingredients(params[:dish][:ingredients].map(&:to_i))
         format.html { redirect_to dish_url(@dish), notice: "Dish was successfully created." }
         format.json { render :show, status: :created, location: @dish }
       else
@@ -36,6 +38,7 @@ class DishesController < ApplicationController
 
   # PATCH/PUT /dishes/1 or /dishes/1.json
   def update
+
     respond_to do |format|
       if @dish.update(dish_params)
         format.html { redirect_to dish_url(@dish), notice: "Dish was successfully updated." }
@@ -50,7 +53,6 @@ class DishesController < ApplicationController
   # DELETE /dishes/1 or /dishes/1.json
   def destroy
     @dish.destroy
-
     respond_to do |format|
       format.html { redirect_to dishes_url, notice: "Dish was successfully destroyed." }
       format.json { head :no_content }
@@ -62,11 +64,10 @@ class DishesController < ApplicationController
     def set_dish
       @dish = Dish.find(params[:id])
       @ingredients = @dish.ingredients
-
     end
 
     # Only allow a list of trusted parameters through.
     def dish_params
-      params.require(:dish).permit(:name, :description, :ingredients)
+      params.require(:dish).permit(:name, :description )
     end
 end

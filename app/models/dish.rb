@@ -9,6 +9,7 @@ class Dish < ApplicationRecord
         result = true
         DishIngredient.transaction do
           ingredients.each do |ingredient|
+            logger.info "@----------------------------------------------------- Dish id: #{self.id} "
             new_dish_ingredient = DishIngredient.new(
               dish_id: self.id,
               ingredient_id: ingredient,
