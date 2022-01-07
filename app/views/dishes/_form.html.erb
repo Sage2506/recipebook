@@ -1,4 +1,4 @@
-<div data-controller="dish-form">
+<div data-controller="dish-form" data-dish-form-target="outside">
 <%= form_with(model: dish, class: "contents") do |form| %>
   <% if dish.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
@@ -23,23 +23,37 @@
   </div>
 
   <div class="my-5">
-    <div data-controller="autocomplete" data-autocomplete-url-value="/search/ingredients">
-      <input type="text" class="w-full" data-autocomplete-target="input" placeholder="Type to search..."/>
-      <ul data-autocomplete-target="results">
+    <label>Ingredientes</label>
+    <ul class="divide-y  shadow-lg" data-dish-form-target="ingredientsList" >
+    </ul>
+  </div>
 
-      </ul>
+  <div class="my-5 container" id="autocompleteArea">
+    <div class="relative">
+    <input type="hidden" data-dish-form-target="ingredientId">
+    <input
+      type="text"
+      data-dish-form-target="ingredientAutocomplete"
+      data-ingredients="<%= ingredients.to_json %>"
+      class="z-0 block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full"
+      >
+    <div class="absolute top-2 right-2">
+      <button
+        disabled
+        type="button"
+        data-dish-form-target="btnAddIngredient"
+        data-action="click->dish-form#addIngredient"
+        title="Please select an ingredient before adding it to the dish"
+        class="h-7 w-8 text-white rounded-lg bg-blue-200 hover:bg-blue-300 shadow"
+        >+</button>
     </div>
+    </div>
+    <ul data-dish-form-target="suggestions" class="divide-y rounded-md shadow-lg"></ul>
   </div>
 
-  <div id= "search-data" class="my-5" data-ingredients="<%= ingredients.to_json %>" data-dish-form-target="autocomplete">
-    <%= text_field_tag :q, nil, autocomplete: :off, "data-dish-form-target"=> "search", class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder: "Search by programming language..." %>
-  </div>
-  <div data-dish-form-target="component"> Elemento react</div>
   <div class="inline">
     <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
   </div>
-
-
 
 <% end %>
 </div>

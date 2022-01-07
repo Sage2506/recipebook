@@ -1,51 +1,111 @@
 import { Controller } from "@hotwired/stimulus"
-import { Autocomplete } from 'stimulus-autocomplete'
-//import 'js-autocomplete/auto-complete.css';
-import autocomplete from "js-autocomplete"
+import axios from 'axios'
+
 export default class extends Controller {
-  static targets = ["autocomplete", "search"]
-  test(){
-    console.log("run test")
+  static targets = ["ingredientField", "ingredientAutocomplete", "suggestions","outside", "ingredientId", "btnAddIngredient", "ingredientsList"]
+
+  enableAddIngredientBtn(){
+    this.btnAddIngredientTarget.disabled = false
+    this.btnAddIngredientTarget.classList.add("bg-blue-500")
+    this.btnAddIngredientTarget.classList.add("hover:bg-blue-600")
+    this.btnAddIngredientTarget.classList.remove("bg-blue-200")
+    this.btnAddIngredientTarget.classList.remove("hover:bg-blue-300")
+    this.btnAddIngredientTarget.title = ""
   }
-  renderItem = function (item) {
-      let icon;
-      if (item.type === 'user') {
-        icon = '<i class="fab fa-github"></i>';
-      } else if (item.type === 'skill') {
-        icon = '<i class="fas fa-code"></i>';
+
+  disableAddIngredientBtn(){
+    this.btnAddIngredientTarget.disabled = true
+    this.btnAddIngredientTarget.classList.add("bg-blue-200")
+    this.btnAddIngredientTarget.classList.add("hover:bg-blue-300")
+    this.btnAddIngredientTarget.classList.remove("bg-blue-500")
+    this.btnAddIngredientTarget.classList.remove("hover:bg-blue-600")
+    this.btnAddIngredientTarget.title = "Please select an ingredient before adding it to the dish"
+  }
+
+  fillAutocomplete(){
+    const name = this.ingredientAutocompleteTarget.value
+      if(name.length) {
+        axios.get(`/ingredients.json?q=${name}`)
+          .then( response => {
+            const autocompleteValues = response.data
+            this.suggestionsTarget.innerHTML = `
+              ${autocompleteValues.map((value) => {
+                  return (
+                         `<li data-value="${value.id}" data-name="${value.name}" data-action="click->dish-form#selectIngredient" class=" text-gray-900 cursor-default select-none relative py-1 pl-3 pr-9 rounded-md hover:bg-blue-200">${value.name}</li>`
+                        )
+                }).join('')}`
+            })
+      } else {
+        this.suggestionsTarget.innerHTML = ``
       }
-      return `<div class="autocomplete-suggestion">${icon}<span>${item.name}</span></div>`
-  };
-  autocompleteSearch() {
-    const ingredients = JSON.parse(this.autocompleteTarget.dataset.ingredients)
-    const searchInput = this.searchTarget
-    if (ingredients && searchInput) {
-      new autocomplete({
-        selector: searchInput,
-        minChars: 1,
-        source: function(term, suggest){
-            term = term.toLowerCase();
-            const choices = ingredients;
-            let matches = []
-            for (let i = 0; i < choices.length; i++)
-              if (~choices[i].name.toLowerCase().indexOf(term)) matches.push(choices[i].name);
-              console.log("matches", matches)
-            suggest(matches);
-        },
-        renderItem: renderItem,
-      });
+  }
+
+  clearSelectedIngredientInput(){
+    this.disableAddIngredientBtn()
+    this.ingredientIdTarget.value=''
+  }
+
+  changeAutocomplete(){
+    this.clearSelectedIngredientInput()
+    this.fillAutocomplete()
+  }
+
+  selectIngredient(element){
+    const ingredient_id = element.target.dataset.value
+    const ingredient_ids =[]
+    this.ingredientAutocompleteTarget.value = element.target.dataset.name
+    this.suggestionsTarget.innerHTML = ``
+    document.getElementsByName("dish[ingredients][]").forEach(element => {
+      ingredient_ids.push(element.value)
+    })
+    if(!!ingredient_ids.length && ingredient_ids.includes(ingredient_id)){
+      this.btnAddIngredientTarget.title = "Please select an ingredient that is not in the list"
+    } else {
+      this.ingredientIdTarget.value = ingredient_id
+      this.enableAddIngredientBtn()
     }
-  };
+  }
+
+  addIngredient(){
+    const id = this.ingredientIdTarget.value
+    const name = this.ingredientAutocompleteTarget.value
+    this.ingredientsListTarget.innerHTML +=
+    `<div class="relative">
+      <input
+          type="hidden"
+          value="${id}"
+          name="dish[ingredients][]"/>
+        <li class="text-gray-900 cursor-default  relative py-1 pl-3 pr-9"> ${name}</li>
+        <div class="absolute top-1 right-2">
+          <button
+            type="button"
+            data-action="click->dish-form#removeIngredient"
+            class="h-6 w-8 text-white rounded-lg bg-red-500 hover:bg-red-600 shadow"
+            title="Remove"
+            >-</button>
+        </div>
+      </div>
+      `
+    this.clearSelectedIngredientInput()
+    this.ingredientAutocompleteTarget.value = ''
+  }
+
+  removeIngredient(event){
+    event.target.parentElement.parentElement.remove()
+  }
 
   connect() {
-    //this one works document.getElementById('testButton').addEventListener("click", this.test);
-    //$('#testButton').on('click', () => this.test())
-    this.test()
-  }
+    if(!!document.getElementById('autocompleteArea')){
+        window.addEventListener('click', (e) => {
+        if (!document.getElementById('autocompleteArea').contains(e.target)){
+          this.suggestionsTarget.innerHTML = ``
+        }
+      })
+    }
 
-  autocompleteTargetConnected(element){
-    console.log("autocomplete conected")
-    //this.autocompleteSearch()
+    this.ingredientAutocompleteTarget.addEventListener('focus', event => this.fillAutocomplete())
+
+    this.ingredientAutocompleteTarget.addEventListener('input',(event) => this.changeAutocomplete())
 
   }
 }
