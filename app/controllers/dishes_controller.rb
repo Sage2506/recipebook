@@ -14,6 +14,7 @@ class DishesController < ApplicationController
   # GET /dishes/new
   def new
     @dish = Dish.new
+    @ingredients = []
   end
 
   # GET /dishes/1/edit
@@ -41,6 +42,8 @@ class DishesController < ApplicationController
 
     respond_to do |format|
       if @dish.update(dish_params)
+        @dish.dish_ingredients.destroy_all
+        @dish.save_ingredients(params[:dish][:ingredients].map(&:to_i))
         format.html { redirect_to dish_url(@dish), notice: "Dish was successfully updated." }
         format.json { render :show, status: :ok, location: @dish }
       else

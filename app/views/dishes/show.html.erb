@@ -6,6 +6,10 @@
 
     <%= render @dish %>
 
+    <strong class="block mb-1">Ingredients</strong>
+    <ul class="divide-y  shadow-lg" data-dish-form-target="ingredientsList" >
+      <%=render partial: 'dishes/ingredient', collection: @ingredients%>
+    </ul>
     <%= link_to 'Edit this dish', edit_dish_path(@dish), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     <div class="inline-block ml-2">
       <%= button_to 'Destroy this dish', dish_path(@dish), method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>

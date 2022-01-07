@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 import axios from 'axios'
 
 export default class extends Controller {
-  static targets = ["ingredientField", "ingredientAutocomplete", "suggestions","outside", "ingredientId", "btnAddIngredient", "ingredientsList"]
+  static targets = ["ingredientField", "ingredientAutocomplete", "suggestions", "ingredientId", "btnAddIngredient", "ingredientsList"]
 
   enableAddIngredientBtn(){
     this.btnAddIngredientTarget.disabled = false

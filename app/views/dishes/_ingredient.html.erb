@@ -1,0 +1,26 @@
+<div class="relative" id="<%= dom_id ingredient %>">
+    <input
+        type="hidden"
+        value="<%= ingredient.id %>"
+        name="dish[ingredients][]"/>
+    <% if action_name != "show"%>
+        <li class="text-gray-900 cursor-default  relative py-1 pl-3 pr-9">
+            <%= ingredient.name %>
+        </li>
+        <div class="absolute top-1 right-2">
+            <button
+            type="button"
+            data-action="click->dish-form#removeIngredient"
+            class="h-6 w-8 text-white rounded-lg bg-red-500 hover:bg-red-600 shadow"
+            title="Remove"
+            >-</button>
+        </div>
+    <% else %>
+    <%= link_to(ingredient) do%>
+        <li class="text-gray-900 cursor-default  relative py-1 pl-3 pr-9 hover:bg-blue-200">
+                <%= ingredient.name %>
+        </li>
+    <% end %>
+    <% end %>
+
+</div>
