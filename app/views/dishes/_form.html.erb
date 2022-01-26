@@ -11,6 +11,14 @@
         </ul>
       </div>
     <% end %>
+
+    <div class="my-5">
+    <% if dish.image%>
+          <% if dish.image.representable? %>
+            <%= image_tag dish.image %>
+          <% end %>
+      <% end %>
+    </div>
     <div class="my-5">
       <%= form.file_field :image %>
 
