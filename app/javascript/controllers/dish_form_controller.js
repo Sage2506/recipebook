@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 import axios from 'axios'
 
 export default class extends Controller {
-  static targets = ["ingredientField", "ingredientAutocomplete", "suggestions", "ingredientId", "btnAddIngredient", "ingredientsList"]
+  static targets = ["ingredientField", "ingredientAutocomplete", "suggestions", "ingredientId", "btnAddIngredient", "ingredientsList", "submitBtn"]
 
   enableAddIngredientBtn(){
     this.btnAddIngredientTarget.disabled = false
@@ -66,6 +66,17 @@ export default class extends Controller {
     }
   }
 
+  verifySubmit(){
+    const totalElementsInList = this.ingredientsListTarget.getElementsByTagName("li").length
+    if(totalElementsInList >1){
+      this.submitBtnTarget.disabled = false
+
+    } else {
+      this.submitBtnTarget.disabled = true
+
+    }
+  }
+
   addIngredient(){
     const id = this.ingredientIdTarget.value
     const name = this.ingredientAutocompleteTarget.value
@@ -88,10 +99,12 @@ export default class extends Controller {
       `
     this.clearSelectedIngredientInput()
     this.ingredientAutocompleteTarget.value = ''
+    this.verifySubmit()
   }
 
   removeIngredient(event){
     event.target.parentElement.parentElement.remove()
+    this.verifySubmit()
   }
 
   connect() {

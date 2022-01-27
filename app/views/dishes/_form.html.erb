@@ -38,6 +38,7 @@
       <ul class="divide-y  shadow-lg" data-dish-form-target="ingredientsList" >
         <%=render partial: 'dishes/ingredient', collection: ingredients%>
       </ul>
+      <label>Add two or more ingredients to create a dish</label>
     </div>
 
     <div class="my-5 container" id="autocompleteArea">
@@ -65,7 +66,8 @@
 
 
     <div class="inline">
-      <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+      <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer", :disabled => true, :"data-dish-form-target" => 'submitBtn', :title => 'Please add two or more ingredients to enable this button' %>
+      <%= link_to "Back to dishes", dishes_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     </div>
 
   <% end %>
