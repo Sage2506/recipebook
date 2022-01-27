@@ -5,11 +5,12 @@
 
   <div class="flex justify-between items-center">
     <h1 class="font-bold text-4xl">Dishes</h1>
-    <%= link_to 'New dish', new_dish_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+    <% if  user_signed_in? %>
+      <%= link_to 'New dish', new_dish_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+    <% end %>
   </div>
 
   <div id="dishes" class="min-w-full">
     <%= render @dishes %>
   </div>
-  <button type="button" data-action="click->hello#test">boton</button>
 </div>

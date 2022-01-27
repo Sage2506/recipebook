@@ -7,9 +7,9 @@ class IngredientsController < ApplicationController
   # GET /ingredients or /ingredients.json
   def index
     @ingredients = if params[:q]
-                     Ingredient.where('lower(name) LIKE ?', "%#{params[:q]}%").all
+                     Ingredient.active.where('lower(name) LIKE ?', "%#{params[:q]}%").all
                    else
-                     Ingredient.all
+                     Ingredient.active
                    end
     respond_to do |format|
       format.json { render json: @ingredients, layout: false }
@@ -67,8 +67,9 @@ class IngredientsController < ApplicationController
 
   # DELETE /ingredients/1 or /ingredients/1.json
   def destroy
-    @ingredient.destroy
-
+    #@ingredient.destroy
+    @ingredient.status = 'inactive'
+    @ingredient.save
     respond_to do |format|
       format.html { redirect_to ingredients_url, notice: 'Ingredient was successfully destroyed.' }
       format.json { head :no_content }

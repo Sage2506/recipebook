@@ -10,7 +10,7 @@
     <ul class="divide-y  shadow-lg" data-dish-form-target="ingredientsList" >
       <%=render partial: 'dishes/ingredient', collection: @ingredients%>
     </ul>
-    <% if  user_signed_in? && current_user.role == 'admin'%>
+    <% if  user_signed_in? && (current_user.role == 'admin' || current_user.id == @dish.user_id)%>
 
     <%= link_to 'Edit this dish', edit_dish_path(@dish), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     <div class="inline-block ml-2">
