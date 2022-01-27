@@ -40,7 +40,7 @@ class IngredientsController < ApplicationController
   # POST /ingredients or /ingredients.json
   def create
     @ingredient = Ingredient.new(ingredient_params)
-
+    @ingredient.user_id = current_user.id
     respond_to do |format|
       if @ingredient.save
         format.html { redirect_to ingredient_url(@ingredient), notice: 'Ingredient was successfully created.' }

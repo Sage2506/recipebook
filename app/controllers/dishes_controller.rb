@@ -27,6 +27,7 @@ class DishesController < ApplicationController
   # POST /dishes or /dishes.json
   def create
     @dish = Dish.new(dish_params)
+    @dish.user_id = current_user.id
     respond_to do |format|
       if @dish.save
         @dish.save_ingredients(params[:dish][:ingredients].map(&:to_i))
