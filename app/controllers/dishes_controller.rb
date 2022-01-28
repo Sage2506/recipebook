@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class DishesController < ApplicationController
+  before_action :authenticate_user!, only: %i[new edit create update destroy]
   before_action :set_dish, only: %i[show edit update destroy]
 
   # GET /dishes or /dishes.json

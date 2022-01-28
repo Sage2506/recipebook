@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
+  before_action :authorize_admin, only: %i[index]
   before_action :set_user, only: %i[show edit update destroy]
   def current
     if current_user
@@ -38,5 +39,9 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :role)
+  end
+
+  def authorize_admin
+    redirect_to root_path, alert: "Permission denied" unless current_user.admin?
   end
 end
