@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
     registrations: 'users/registrations'
   }
-
+  resources :users
   get '/search/ingredients', to: 'ingredients#search'
   resources :dishes
   authenticated do
