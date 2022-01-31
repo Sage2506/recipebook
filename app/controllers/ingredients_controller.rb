@@ -71,7 +71,7 @@ class IngredientsController < ApplicationController
     @ingredient.status = 'inactive'
     @ingredient.save
     respond_to do |format|
-      format.html { redirect_to ingredients_url, notice: 'Ingredient was successfully destroyed.' }
+      format.html { redirect_to ingredients_url, notice: 'Ingredient was successfully destroyed.', status: :see_other }
       format.json { head :no_content }
     end
   end
