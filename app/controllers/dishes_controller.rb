@@ -11,7 +11,7 @@ class DishesController < ApplicationController
 
   # GET /dishes/1 or /dishes/1.json
   def show
-    logger.info "@----------------------------------------------------- Dish id: #{@dish.id} "
+      logger.info "@----------------------------------------------------- Dish id: #{@dish.id} "
   end
 
   # GET /dishes/new
@@ -69,8 +69,12 @@ class DishesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_dish
-    @dish = Dish.find(params[:id])
-    @ingredients = @dish.ingredients
+    @dish = Dish.find_by_id(params[:id])
+    if @dish
+      @ingredients = @dish.ingredients
+    else
+      redirect_to dishes_path
+    end
   end
 
   # Only allow a list of trusted parameters through.

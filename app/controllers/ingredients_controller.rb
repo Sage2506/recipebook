@@ -27,7 +27,9 @@ class IngredientsController < ApplicationController
   end
 
   # GET /ingredients/1 or /ingredients/1.json
-  def show; end
+  def show
+    redirect_to ingredients_path unless @ingredient && @ingredient.is_active?
+  end
 
   # GET /ingredients/new
   def new
@@ -35,7 +37,9 @@ class IngredientsController < ApplicationController
   end
 
   # GET /ingredients/1/edit
-  def edit; end
+  def edit
+    redirect_to ingredients_path, alert: "Permission denied" unless current_user.is_admin? || current_user.is_moderator? || current_user.id == @ingredient.user_id
+  end
 
   # POST /ingredients or /ingredients.json
   def create
@@ -80,11 +84,15 @@ class IngredientsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_ingredient
-    @ingredient = Ingredient.find(params[:id])
+    @ingredient = Ingredient.find_by_id(params[:id])
+    if !@ingredient
+      redirect_to ingredients_path
+    end
   end
 
   # Only allow a list of trusted parameters through.
   def ingredient_params
     params.require(:ingredient).permit(:name, :description)
   end
+
 end
