@@ -22,6 +22,7 @@ class DishesController < ApplicationController
 
   # GET /dishes/1/edit
   def edit
+    redirect_to dishes_path, alert: "Permission denied" unless current_user.is_admin? || current_user.is_moderator? || current_user.id == @dish.user_id
     logger.info "@----------------------------------------------------- Dish id: #{@dish.id} "
   end
 
