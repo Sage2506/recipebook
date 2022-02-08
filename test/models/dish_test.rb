@@ -3,21 +3,20 @@
 require 'test_helper'
 
 class DishTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
-  test "should not save without name or description" do
-    dish = Dish.new
-    assert_not dish.save, "Saved the dish without a name and description"
+  def dish
+    dishes(:one)
   end
 
-  test "should not save without name" do
-    dish = Dish.new( description: "dish description")
-    assert_not dish.save, "Saved the dish without a name"
+  test 'fixture must be valid' do
+    assert dish.valid?
   end
 
-  test "should not save without description" do
-    dish = Dish.new( name: "dish name")
-    assert_not dish.save, "Saved the dish without a description"
+  test 'wont be valid if description is missing' do
+    assert_not dishes(:invalid).valid?
+  end
+
+  test 'must not save without name' do
+    dish = Dish.new(description: 'dish description')
+    assert_not dish.valid?
   end
 end

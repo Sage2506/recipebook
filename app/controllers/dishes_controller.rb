@@ -11,7 +11,7 @@ class DishesController < ApplicationController
 
   # GET /dishes/1 or /dishes/1.json
   def show
-      logger.info "@----------------------------------------------------- Dish id: #{@dish.id} "
+    logger.info "@----------------------------------------------------- Dish id: #{@dish.id} "
   end
 
   # GET /dishes/new
