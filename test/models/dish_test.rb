@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
-require 'test_helper'
+require "test_helper"
 
 class DishTest < ActiveSupport::TestCase
   def dish
     dishes(:one)
   end
-
   test 'fixture must be valid' do
     assert dish.valid?
   end

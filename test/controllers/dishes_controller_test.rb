@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'test_helper'
+require "test_helper"
 
 class DishesControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
@@ -10,12 +10,12 @@ class DishesControllerTest < ActionDispatch::IntegrationTest
     sign_in users(:hotmail)
   end
 
-  test 'should get index' do
+  test "should get index" do
     get dishes_url
     assert_response :success
   end
 
-  test 'should get new' do
+  test "should get new" do
     get new_dish_url
     assert_response :success
   end
@@ -32,12 +32,12 @@ class DishesControllerTest < ActionDispatch::IntegrationTest
     assert_not_nil Dish.last.user_id
   end
 
-  test 'should show dish' do
+  test "should show dish" do
     get dish_url(@dish)
     assert_response :success
   end
 
-  test 'should get edit' do
+  test "should get edit" do
     get edit_dish_url(@dish)
     assert_response :success
   end
@@ -51,8 +51,8 @@ class DishesControllerTest < ActionDispatch::IntegrationTest
     assert_equal 3, @dish.ingredients.size
   end
 
-  test 'should destroy dish' do
-    assert_difference('Dish.count', -1) do
+  test "should destroy dish" do
+    assert_difference("Dish.count", -1) do
       delete dish_url(@dish)
     end
 

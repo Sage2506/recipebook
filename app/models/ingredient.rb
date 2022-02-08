@@ -8,6 +8,6 @@ class Ingredient < ApplicationRecord
   validates :name, presence: true
   validates :description, presence: true
   def is_active?
-    status == 'active'
+    status == "active"
   end
 end
