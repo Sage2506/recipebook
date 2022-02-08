@@ -1,0 +1,14 @@
+salt:
+  name: salt
+  description: sal de mar
+  user: hotmail
+
+sugar:
+  name: sugar
+  description: azucar de cania
+  user: hotmail
+
+garlic:
+  name: ajo
+  description: ajo contra vampiros
+  user: hotmail
