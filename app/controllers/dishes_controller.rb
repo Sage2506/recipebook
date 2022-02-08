@@ -11,7 +11,7 @@ class DishesController < ApplicationController
 
   # GET /dishes/1 or /dishes/1.json
   def show
-      logger.info "@----------------------------------------------------- Dish id: #{@dish.id} "
+    logger.info "@----------------------------------------------------- Dish id: #{@dish.id} "
   end
 
   # GET /dishes/new
@@ -22,7 +22,10 @@ class DishesController < ApplicationController
 
   # GET /dishes/1/edit
   def edit
-    redirect_to dishes_path, alert: "Permission denied" unless current_user.is_admin? || current_user.is_moderator? || current_user.id == @dish.user_id
+    unless current_user.is_admin? || current_user.is_moderator? || current_user.id == @dish.user_id
+      redirect_to dishes_path,
+                  alert: "Permission denied"
+    end
     logger.info "@----------------------------------------------------- Dish id: #{@dish.id} "
   end
 
@@ -33,7 +36,7 @@ class DishesController < ApplicationController
     respond_to do |format|
       if @dish.save
         @dish.save_ingredients(params[:dish][:ingredients].map(&:to_i))
-        format.html { redirect_to dish_url(@dish), notice: 'Dish was successfully created.' }
+        format.html { redirect_to dish_url(@dish), notice: "Dish was successfully created." }
         format.json { render :show, status: :created, location: @dish }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -48,7 +51,7 @@ class DishesController < ApplicationController
       if @dish.update(dish_params)
         @dish.dish_ingredients.destroy_all
         @dish.save_ingredients(params[:dish][:ingredients].map(&:to_i))
-        format.html { redirect_to dish_url(@dish), notice: 'Dish was successfully updated.' }
+        format.html { redirect_to dish_url(@dish), notice: "Dish was successfully updated." }
         format.json { render :show, status: :ok, location: @dish }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -61,7 +64,7 @@ class DishesController < ApplicationController
   def destroy
     @dish.destroy
     respond_to do |format|
-      format.html { redirect_to dishes_url, notice: 'Dish was successfully destroyed.', status: :see_other }
+      format.html { redirect_to dishes_url, notice: "Dish was successfully destroyed.", status: :see_other }
       format.json { head :no_content }
     end
   end
@@ -70,7 +73,7 @@ class DishesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_dish
-    @dish = Dish.find_by_id(params[:id])
+    @dish = Dish.find_by(id: params[:id])
     if @dish
       @ingredients = @dish.ingredients
     else

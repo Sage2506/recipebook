@@ -20,7 +20,7 @@ class Dish < ApplicationRecord
         )
         unless new_dish_ingredient.save
           result = false
-          raise ActiveRecord::Rollback, 'Dish Ingredient not saved'
+          raise ActiveRecord::Rollback, "Dish Ingredient not saved"
         end
       end
     end

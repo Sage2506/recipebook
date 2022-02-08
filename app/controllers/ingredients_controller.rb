@@ -7,7 +7,7 @@ class IngredientsController < ApplicationController
   # GET /ingredients or /ingredients.json
   def index
     @ingredients = if params[:q]
-                     Ingredient.active.where('lower(name) LIKE ?', "%#{params[:q]}%").all
+                     Ingredient.active.where("lower(name) LIKE ?", "%#{params[:q]}%").all
                    else
                      Ingredient.active
                    end
@@ -19,7 +19,7 @@ class IngredientsController < ApplicationController
 
   def search
     @ingredients = if params[:q]
-                     Ingredient.where('lower(name) LIKE ?', "%#{params[:q]}%").all
+                     Ingredient.where("lower(name) LIKE ?", "%#{params[:q]}%").all
                    else
                      []
                    end
@@ -28,7 +28,7 @@ class IngredientsController < ApplicationController
 
   # GET /ingredients/1 or /ingredients/1.json
   def show
-    redirect_to ingredients_path unless @ingredient && @ingredient.is_active?
+    redirect_to ingredients_path unless @ingredient&.is_active?
   end
 
   # GET /ingredients/new
@@ -38,7 +38,10 @@ class IngredientsController < ApplicationController
 
   # GET /ingredients/1/edit
   def edit
-    redirect_to ingredients_path, alert: "Permission denied" unless current_user.is_admin? || current_user.is_moderator? || current_user.id == @ingredient.user_id
+    unless current_user.is_admin? || current_user.is_moderator? || current_user.id == @ingredient.user_id
+      redirect_to ingredients_path,
+                  alert: "Permission denied"
+    end
   end
 
   # POST /ingredients or /ingredients.json
@@ -47,7 +50,7 @@ class IngredientsController < ApplicationController
     @ingredient.user_id = current_user.id
     respond_to do |format|
       if @ingredient.save
-        format.html { redirect_to ingredient_url(@ingredient), notice: 'Ingredient was successfully created.' }
+        format.html { redirect_to ingredient_url(@ingredient), notice: "Ingredient was successfully created." }
         format.json { render :show, status: :created, location: @ingredient }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -60,7 +63,7 @@ class IngredientsController < ApplicationController
   def update
     respond_to do |format|
       if @ingredient.update(ingredient_params)
-        format.html { redirect_to ingredient_url(@ingredient), notice: 'Ingredient was successfully updated.' }
+        format.html { redirect_to ingredient_url(@ingredient), notice: "Ingredient was successfully updated." }
         format.json { render :show, status: :ok, location: @ingredient }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -71,11 +74,11 @@ class IngredientsController < ApplicationController
 
   # DELETE /ingredients/1 or /ingredients/1.json
   def destroy
-    #@ingredient.destroy
-    @ingredient.status = 'inactive'
+    # @ingredient.destroy
+    @ingredient.status = "inactive"
     @ingredient.save
     respond_to do |format|
-      format.html { redirect_to ingredients_url, notice: 'Ingredient was successfully destroyed.', status: :see_other }
+      format.html { redirect_to ingredients_url, notice: "Ingredient was successfully destroyed.", status: :see_other }
       format.json { head :no_content }
     end
   end
@@ -84,15 +87,12 @@ class IngredientsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_ingredient
-    @ingredient = Ingredient.find_by_id(params[:id])
-    if !@ingredient
-      redirect_to ingredients_path
-    end
+    @ingredient = Ingredient.find_by(id: params[:id])
+    redirect_to ingredients_path unless @ingredient
   end
 
   # Only allow a list of trusted parameters through.
   def ingredient_params
     params.require(:ingredient).permit(:name, :description)
   end
-
 end
