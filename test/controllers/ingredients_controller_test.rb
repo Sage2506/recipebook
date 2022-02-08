@@ -42,7 +42,7 @@ class IngredientsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should destroy ingredient' do
-    assert_difference('Ingredient.count', -1) do
+    assert_difference('Ingredient.active.count', -1) do
       delete ingredient_url(@ingredient)
     end
 
