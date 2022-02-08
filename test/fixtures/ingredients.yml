@@ -1,3 +1,4 @@
+
 onion:
   user: one
   name: Onion
@@ -6,4 +7,14 @@ onion:
 salt:
   user: one
   name: Spice
-  description: Extracted from the dune sea
+  description: Ext
+
+sugar:
+  name: sugar
+  description: azucar de cania
+  user: hotmail
+
+garlic:
+  name: ajo
+  description: ajo contra vampiros
+  user: hotmail
