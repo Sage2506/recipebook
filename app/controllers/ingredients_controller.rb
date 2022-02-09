@@ -34,10 +34,10 @@ class IngredientsController < ApplicationController
   end
 
   def edit
-    unless current_user.is_admin? || current_user.is_moderator? || current_user.id == @ingredient.user_id
-      redirect_to ingredients_path,
-                  alert: "Permission denied"
-    end
+    return if current_user.admin? || current_user.moderator? || current_user.id == @ingredient.user_id
+
+    redirect_to ingredients_path, alert: "Permission denied",
+                                  status: :unauthorized
   end
 
   def create

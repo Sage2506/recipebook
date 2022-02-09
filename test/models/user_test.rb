@@ -7,11 +7,11 @@ class UserTest < ActiveSupport::TestCase
     users(:one)
   end
 
-  test 'fixture must be valid' do
+  test "fixture must be valid" do
     assert user.valid?
   end
 
-  test 'default role must be volunteer' do
+  test "default role must be volunteer" do
     assert user.volunteer?
   end
 end

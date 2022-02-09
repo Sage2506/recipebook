@@ -8,8 +8,7 @@ class DishesController < ApplicationController
     @dishes = Dish.all
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @dish = Dish.new
@@ -17,31 +16,31 @@ class DishesController < ApplicationController
   end
 
   def edit
-    unless current_user.is_admin? || current_user.is_moderator? || current_user.id == @dish.user_id
-      redirect_to dishes_path,
-                  alert: "Permission denied"
-    end
+    return if current_user.admin? || current_user.moderator? || current_user.id == @dish.user_id
+
+    redirect_to dishes_path, alert: "Permission denied",
+                             status:	:unauthorized
   end
 
   def create
     @dish = Dish.new(dish_params)
     @dish.user_id = current_user.id
-      if @dish.save
-        @dish.save_ingredients(params[:dish][:ingredients].map(&:to_i)) unless !params[:dish][:ingredients]
-        redirect_to dish_url(@dish), notice: "Dish was successfully created."
-      else
-        render :new, status: :unprocessable_entity
-      end
+    if @dish.save
+      @dish.save_ingredients(params[:dish][:ingredients].map(&:to_i)) if params[:dish][:ingredients]
+      redirect_to dish_url(@dish), notice: "Dish was successfully created."
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def update
-      if @dish.update(dish_params)
-        @dish.dish_ingredients.destroy_all unless !params[:dish][:ingredients]
-        @dish.save_ingredients(params[:dish][:ingredients].map(&:to_i)) unless !params[:dish][:ingredients]
-        redirect_to dish_url(@dish), notice: "Dish was successfully updated."
-      else
-        render :edit, status: :unprocessable_entity
-      end
+    if @dish.update(dish_params)
+      @dish.dish_ingredients.destroy_all if params[:dish][:ingredients]
+      @dish.save_ingredients(params[:dish][:ingredients].map(&:to_i)) if params[:dish][:ingredients]
+      redirect_to dish_url(@dish), notice: "Dish was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   def destroy

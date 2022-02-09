@@ -20,11 +20,13 @@ class DishesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test 'should create dish' do
-    salt = Ingredient.find_by(name:"salt")
-    sugar = Ingredient.find_by(name:"sugar")
-    assert_difference('Dish.count') do
-      post dishes_url, params: { dish: { description: @dish.description, name: @dish.name, ingredients: [sugar.id.to_s, salt.id.to_s] } }
+  test "should create dish" do
+    salt = Ingredient.find_by(name: "salt")
+    sugar = Ingredient.find_by(name: "sugar")
+    assert_difference("Dish.count") do
+      post dishes_url,
+           params: { dish: { description: @dish.description, name: @dish.name,
+                             ingredients: [sugar.id.to_s, salt.id.to_s] } }
     end
 
     assert_redirected_to dish_url(Dish.last)
@@ -42,11 +44,13 @@ class DishesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test 'should update dish' do
-    salt = Ingredient.find_by(name:"salt")
-    sugar = Ingredient.find_by(name:"sugar")
-    garlic = Ingredient.find_by(name:"ajo")
-    put dish_url(@dish), params: { dish: { description: @dish.description, name: @dish.name, ingredients: [sugar.id, salt.id, garlic.id] } }
+  test "should update dish" do
+    salt = Ingredient.find_by(name: "salt")
+    sugar = Ingredient.find_by(name: "sugar")
+    garlic = Ingredient.find_by(name: "ajo")
+    put dish_url(@dish),
+        params: { dish: { description: @dish.description, name: @dish.name,
+                          ingredients: [sugar.id, salt.id, garlic.id] } }
     assert_redirected_to dish_url(@dish)
     assert_equal 3, @dish.ingredients.size
   end
