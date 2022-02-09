@@ -10,15 +10,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  def is_admin?
-    role == "admin"
-  end
-
-  def is_moderator?
-    role == "moderator"
-  end
-
-  def is_volunteer?
-    role == "volunteer"
-  end
+  alias_method is_admin?, admin?
+  alias_method is_moderator?, moderator?
+  alias_method is_volunteer?, volunteer?
 end
