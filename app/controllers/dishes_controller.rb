@@ -16,10 +16,10 @@ class DishesController < ApplicationController
   end
 
   def edit
-    unless current_user.admin? || current_user.moderator? || current_user.id == @dish.user_id
-      redirect_to dishes_path, alert: "Permission denied",
-                               status:	:unauthorized
-    end
+    return if current_user.admin? || current_user.moderator? || current_user.id == @dish.user_id
+
+    redirect_to dishes_path, alert: "Permission denied",
+                             status:	:unauthorized
   end
 
   def create
