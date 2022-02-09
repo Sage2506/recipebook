@@ -1,3 +1,9 @@
+
+onion:
+  user: one
+  name: Onion
+  description: .
+
 salt:
   user: one
   name: salt

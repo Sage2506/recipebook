@@ -3,3 +3,7 @@ one:
   name: Cereal
   description: cereal con leche
   user: one
+
+invalid:
+  name: pozole
+  user: one

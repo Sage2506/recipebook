@@ -4,7 +4,7 @@ require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
   def user
-    users(:one)
+    users(:two)
   end
 
   test "fixture must be valid" do
