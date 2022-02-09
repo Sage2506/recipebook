@@ -7,7 +7,7 @@ class IngredientTest < ActiveSupport::TestCase
     ingredients(:onion)
   end
 
-  test 'fixture must be valid' do
+  test "fixture must be valid" do
     assert ingredient.valid?
   end
 end
