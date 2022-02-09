@@ -12,7 +12,7 @@ class DishesTest < ApplicationSystemTestCase
     assert_selector "h1", text: "Dishes"
   end
 
-  test "should create dish" do
+  test "must create dish" do
     visit dishes_url
     click_on "New dish"
 
@@ -24,7 +24,7 @@ class DishesTest < ApplicationSystemTestCase
     click_on "Back"
   end
 
-  test "should update Dish" do
+  test "must update Dish" do
     visit dish_url(@dish)
     click_on "Edit this dish", match: :first
 
@@ -36,7 +36,7 @@ class DishesTest < ApplicationSystemTestCase
     click_on "Back"
   end
 
-  test "should destroy Dish" do
+  test "must destroy Dish" do
     visit dish_url(@dish)
     click_on "Destroy this dish", match: :first
 

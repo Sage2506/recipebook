@@ -2,9 +2,4 @@ one:
   name: Barry
   email: test@example.com
   encrypted_password: <%= BCrypt::Password.create('123456789') %>
-
-two:
   role: admin
-  name: Allen
-  email: test1@example.com
-  encrypted_password: <%= BCrypt::Password.create('123456789') %>

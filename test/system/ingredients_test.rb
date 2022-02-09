@@ -12,7 +12,7 @@ class IngredientsTest < ApplicationSystemTestCase
     assert_selector "h1", text: "Ingredients"
   end
 
-  test "should create ingredient" do
+  test "must create ingredient" do
     visit ingredients_url
     click_on "New ingredient"
 
@@ -24,7 +24,7 @@ class IngredientsTest < ApplicationSystemTestCase
     click_on "Back"
   end
 
-  test "should update Ingredient" do
+  test "must update Ingredient" do
     visit ingredient_url(@ingredient)
     click_on "Edit this ingredient", match: :first
 
@@ -36,7 +36,7 @@ class IngredientsTest < ApplicationSystemTestCase
     click_on "Back"
   end
 
-  test "should destroy Ingredient" do
+  test "must destroy Ingredient" do
     visit ingredient_url(@ingredient)
     click_on "Destroy this ingredient", match: :first
 

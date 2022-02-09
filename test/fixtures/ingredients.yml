@@ -1,20 +1,14 @@
-
-onion:
-  user: one
-  name: Onion
-  description: .
-
 salt:
   user: one
-  name: Spice
+  name: salt
   description: Ext
 
 sugar:
   name: sugar
   description: azucar de cania
-  user: hotmail
+  user: one
 
 garlic:
   name: ajo
   description: ajo contra vampiros
-  user: hotmail
+  user: one
