@@ -1,60 +1,74 @@
-<div data-controller="dish-form" data-dish-form-target="outside">
-<%= form_with(model: dish, class: "contents") do |form| %>
-  <% if dish.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-      <h2><%= pluralize(dish.errors.count, "error") %> prohibited this dish from being saved:</h2>
+<div data-controller="dish-form">
+  <%= form_with(model: dish, class: "contents") do |form| %>
+    <% if dish.errors.any? %>
+      <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+        <h2><%= pluralize(dish.errors.count, "error") %> prohibited this dish from being saved:</h2>
 
-      <ul>
-        <% dish.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
+        <ul>
+          <% dish.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="my-5">
+    <% if dish.image%>
+          <% if dish.image.representable? %>
+            <%= image_tag dish.image %>
+          <% end %>
+      <% end %>
+    </div>
+    <div class="my-5">
+      <%= form.file_field :image %>
+
+    </div>
+    <div class="my-5">
+      <%= form.label :name %>
+      <%= form.text_field :name, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" , :required => true %>
+    </div>
+
+    <div class="my-5">
+      <%= form.label :description %>
+      <%= form.text_area :description, rows: 4, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", :required => true %>
+    </div>
+
+    <div class="my-5">
+      <label>Ingredientes</label>
+      <ul class="divide-y  shadow-lg" data-dish-form-target="ingredientsList" >
+        <%=render partial: 'dishes/ingredient', collection: ingredients%>
+      </ul>
+      <label>Add two or more ingredients to create a dish</label>
+    </div>
+
+    <div class="my-5 container" id="autocompleteArea">
+      <div class="relative">
+      <input type="hidden" data-dish-form-target="ingredientId">
+      <input
+        type="text"
+        data-dish-form-target="ingredientAutocomplete"
+        class="z-0 block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full"
+        >
+      <div class="absolute top-2 right-2">
+        <button
+          disabled
+          type="button"
+          data-dish-form-target="btnAddIngredient"
+          data-action="click->dish-form#addIngredient"
+          title="Please select an ingredient before adding it to the dish"
+          class="h-7 w-8 text-white rounded-lg bg-blue-200 hover:bg-blue-300 shadow"
+          >+</button>
+      </div>
+      </div>
+      <ul data-dish-form-target="suggestions" class="divide-y rounded-md shadow-lg">
       </ul>
     </div>
+
+
+    <div class="inline">
+      <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer", :disabled => true, :"data-dish-form-target" => 'submitBtn', :title => 'Please add two or more ingredients to enable this button' %>
+      <%= link_to "Back to dishes", dishes_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    </div>
+
   <% end %>
-
-  <div class="my-5">
-    <%= form.label :name %>
-    <%= form.text_field :name, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" , :required => true %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :description %>
-    <%= form.text_area :description, rows: 4, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", :required => true %>
-  </div>
-
-  <div class="my-5">
-    <label>Ingredientes</label>
-    <ul class="divide-y  shadow-lg" data-dish-form-target="ingredientsList" >
-
-    </ul>
-  </div>
-
-  <div class="my-5 container" id="autocompleteArea">
-    <div class="relative">
-    <input type="hidden" data-dish-form-target="ingredientId">
-    <input
-      type="text"
-      data-dish-form-target="ingredientAutocomplete"
-      class="z-0 block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full"
-      >
-    <div class="absolute top-2 right-2">
-      <button
-        disabled
-        type="button"
-        data-dish-form-target="btnAddIngredient"
-        data-action="click->dish-form#addIngredient"
-        title="Please select an ingredient before adding it to the dish"
-        class="h-7 w-8 text-white rounded-lg bg-blue-200 hover:bg-blue-300 shadow"
-        >+</button>
-    </div>
-    </div>
-    <ul data-dish-form-target="suggestions" class="divide-y rounded-md shadow-lg">
-    </ul>
-  </div>
-
-  <div class="inline">
-    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
-  </div>
-
-<% end %>
 </div>

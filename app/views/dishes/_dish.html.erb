@@ -1,17 +1,33 @@
 <div id="<%= dom_id dish %>">
+
   <p class="my-5">
-    <strong class="block font-medium mb-1">Name:</strong>
+    <ul>
+      <% if dish.image%>
+        <li>
+          <% if dish.image.representable? %>
+          <div class="">
+            <%= image_tag dish.image, class:"" %>
+          </div>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </p>
+  <p class="my-5">
+    <strong class="block mb-1">Name:</strong>
     <%= dish.name %>
   </p>
 
   <p class="my-5">
-    <strong class="block font-medium mb-1">Description:</strong>
+    <strong class="block mb-1">Description:</strong>
     <%= dish.description %>
   </p>
 
   <% if action_name != "show" %>
     <%= link_to "Show this dish", dish, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to 'Edit this dish', edit_dish_path(dish), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+    <% if  user_signed_in? && (current_user.role == 'admin' || current_user.id == dish.user_id ) %>
+      <%= link_to 'Edit this dish', edit_dish_path(dish), class: "rounded-lg py-3 ml-2 px-5 bg-blue-100 text-blue-500 inline-block font-medium" %>
+    <% end %>
     <hr class="mt-6">
   <% end %>
 </div>
