@@ -6,7 +6,7 @@ class IngredientsController < ApplicationController
 
   def index
     @ingredients = if params[:q]
-                     Ingredient.active.where("lower(name) LIKE ?", "%#{params[:q]}%").all
+                     Ingredient.active.where("lower(name) LIKE ?", "%#{params[:q]}%")
                    else
                      Ingredient.active
                    end

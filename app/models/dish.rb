@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
 class Dish < ApplicationRecord
-  validates :name, presence: true
-  validates :description, presence: true
-
   belongs_to :user
   has_many :dish_ingredients, dependent: :destroy
   has_many :ingredients, through: :dish_ingredients
   has_one_attached :image
+
+  validates :name, presence: true
 
   def save_ingredients(ingredients)
     result = true

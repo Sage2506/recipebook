@@ -6,7 +6,6 @@ class Ingredient < ApplicationRecord
   has_many :dishes, through: :dish_ingredients
   belongs_to :user
   validates :name, presence: true
-  validates :description, presence: true
   def is_active?
     status == "active"
   end

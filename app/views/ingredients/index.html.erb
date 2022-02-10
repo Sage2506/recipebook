@@ -8,8 +8,14 @@
     <% if  user_signed_in? %>
       <%= link_to 'New ingredient', new_ingredient_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
     <% end %>
-  </div>
 
+  </div>
+  <div class="my-5">
+    <form action="/ingredients" class="inline">
+      <input type="text" id="q" name="q" placeholder="Busca un ingrediente" class="focus:ring-indigo-500 py-3 px-5 focus:border-indigo-500 block w-1/2 pl-7 pr-12 sm:text-sm border-gray-300 rounded-md inline-block">
+      <input type="submit" value="Buscar" class="rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer ">
+    </form>
+  </div>
   <div id="ingredients" class="min-w-full">
     <%= render @ingredients %>
   </div>
