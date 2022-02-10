@@ -5,7 +5,11 @@ class DishesController < ApplicationController
   before_action :set_dish, only: %i[show edit update destroy]
 
   def index
-    @dishes = Dish.all
+    @dishes = if params[:q]
+                Dish.where("lower(name) LIKE ?", "%#{params[:q]}%")
+              else
+                Dish.all
+              end
   end
 
   def show; end

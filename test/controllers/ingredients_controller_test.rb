@@ -51,4 +51,14 @@ class IngredientsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to ingredients_url
   end
+
+  test "must match search" do
+    get ingredients_url, params: { q: "ajo" }
+    ingredients = assigns(:ingredients)
+    assert_not_nil ingredients
+    assert_equal 1, ingredients.size
+    ingredient = ingredients[0]
+    assert_match(/ajo/, ingredient.name.downcase)
+    assert_response :success
+  end
 end
