@@ -9,4 +9,12 @@ class User < ApplicationRecord
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+
+  def active_for_authentication?
+    super && !deactivated
+  end
+
+  def destroy
+    update(deactivated: true) unless deactivated
+  end
 end
