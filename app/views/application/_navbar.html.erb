@@ -11,6 +11,7 @@
             <a class="block mt-4 lg:inline-block lg:mt-0 text-blue-200 text-base hover:text-white mr-4">
                 User <%= current_user.name %>
             </a>
+            <%= link_to "My dishes", my_dishes_path, class: "block mt-4 lg:inline-block lg:mt-0 text-blue-200 text-base hover:text-white mr-4" %>
             <% if  current_user.role == 'admin'%>
               <%= link_to "Users", users_path, class: "block mt-4 lg:inline-block lg:mt-0 text-blue-200 text-base hover:text-white mr-4"   %>
             <% end %>

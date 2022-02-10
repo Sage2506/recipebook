@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :dishes
   resources :ingredients
   get '/search/ingredients', to: 'ingredients#search'
+  get 'my_dishes', to: 'dishes#my_dishes'
   resources :users
   devise_for :users, controllers: {
     registrations: 'users/registrations'

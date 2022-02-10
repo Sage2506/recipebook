@@ -10,6 +10,17 @@ class DishesController < ApplicationController
               else
                 Dish.all
               end
+    return unless params[:ingredients]
+
+    @dishes = @dishes.joins(:dish_ingredients).where(dish_ingredients: { ingredient_id: params[:ingredient].to_s })
+  end
+
+  def my_dishes
+    @dishes = if params[:q]
+                current_user.dishes.where("lower(name) LIKE ?", "%#{params[:q]}%")
+              else
+                current_user.dishes
+              end
   end
 
   def show; end
