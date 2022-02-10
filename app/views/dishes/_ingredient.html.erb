@@ -16,11 +16,17 @@
             >-</button>
         </div>
     <% else %>
-    <%= link_to(ingredient) do%>
-        <li class="text-gray-900 cursor-default  relative py-1 pl-3 pr-9 hover:bg-blue-200">
-                <%= ingredient.name %>
-        </li>
-    <% end %>
+        <% if ingredient.is_active? %>
+            <%= link_to(ingredient) do%>
+                <li class="text-gray-900 cursor-default  relative py-1 pl-3 pr-9 hover:bg-blue-200 cursor-pointer">
+                        <%= ingredient.name %>
+                </li>
+            <% end %>
+        <% else %>
+            <li class="text-gray-900 cursor-default  relative py-1 pl-3 pr-9">
+                    <%= ingredient.name %>
+            </li>
+        <% end %>
     <% end %>
 
 </div>
