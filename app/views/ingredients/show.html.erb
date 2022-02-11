@@ -7,14 +7,14 @@
     <%= render @ingredient %>
     <% if user_signed_in? && (current_user.role == 'admin' || current_user.id == @ingredient.user_id) %>
     <%= link_to 'Edit this ingredient', edit_ingredient_path(@ingredient), class: "mt-2 rounded-lg py-3 px-5 bg-blue-100 text-blue-500 inline-block font-medium" %>
-    <%= link_to 'Show dishes to make', dishes_path( :ingredient => @ingredient.id) , class: "mt-2 rounded-lg py-3 px-5 bg-blue-100 text-blue-500 inline-block font-medium" %>
     <div class="inline-block ml-2">
       <%= link_to "Delete this ingredient", ingredient_path(@ingredient), data: {
-                      turbo_method: :delete,
+        turbo_method: :delete,
                       turbo_confirm: "Are you sure?"
                     }, class: "mt-2 rounded-lg py-3 px-5 bg-red-50 text-red-500 font-medium" %>
     </div>
     <% end %>
+    <%= link_to 'Show dishes to make', dishes_path( :ingredient => @ingredient.id) , class: "mt-2 rounded-lg py-3 px-5 bg-blue-100 text-blue-500 inline-block font-medium" %>
     <%= link_to 'Back to ingredients', ingredients_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
   </div>
 </div>
