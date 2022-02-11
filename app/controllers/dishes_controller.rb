@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DishesController < ApplicationController
-  before_action :authenticate_user!, only: %i[new edit create update destroy]
+  before_action :authenticate_user!, only: %i[new edit create update destroy my_dishes]
   before_action :set_dish, only: %i[show edit update destroy]
 
   def index
@@ -9,6 +9,17 @@ class DishesController < ApplicationController
                 Dish.where("lower(name) LIKE ?", "%#{params[:q]}%")
               else
                 Dish.all
+              end
+    return unless params[:ingredient]
+
+    @dishes = @dishes.joins(:dish_ingredients).where(dish_ingredients: { ingredient_id: params[:ingredient].to_s })
+  end
+
+  def my_dishes
+    @dishes = if params[:q]
+                current_user.dishes.where("lower(name) LIKE ?", "%#{params[:q]}%")
+              else
+                current_user.dishes
               end
   end
 
@@ -38,6 +49,7 @@ class DishesController < ApplicationController
   end
 
   def update
+    logger.info "@----------------------------------------------------- Update params "
     if @dish.update(dish_params)
       @dish.dish_ingredients.destroy_all if params[:dish][:ingredients]
       @dish.save_ingredients(params[:dish][:ingredients].map(&:to_i)) if params[:dish][:ingredients]

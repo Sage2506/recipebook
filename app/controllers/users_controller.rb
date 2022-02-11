@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.all
+    @users = User.active
   end
 
   def show; end
@@ -31,7 +31,10 @@ class UsersController < ApplicationController
     end
   end
 
-  def destroy; end
+  def destroy
+    @user.destroy
+    redirect_to users_url, notice: "USer was successfully destroyed.", status: :see_other
+  end
 
   private
 

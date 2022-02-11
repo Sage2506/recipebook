@@ -31,7 +31,7 @@ export default class extends Controller {
             this.suggestionsTarget.innerHTML = `
               ${autocompleteValues.map((value) => {
                   return (
-                         `<li data-value="${value.id}" data-name="${value.name}" data-action="click->dish-form#selectIngredient" class=" text-gray-900 cursor-default select-none relative py-1 pl-3 pr-9 rounded-md hover:bg-blue-200">${value.name}</li>`
+                         `<li data-value="${value.id}" data-name="${value.name}" data-action="click->dish-form#selectIngredient" class=" text-gray-900 cursor-default select-none relative py-1 pl-3 pr-9 rounded-md hover:bg-blue-200 cursor-pointer">${value.name}</li>`
                         )
                 }).join('')}`
             })
@@ -114,6 +114,7 @@ export default class extends Controller {
           this.suggestionsTarget.innerHTML = ``
         }
       })
+      this.verifySubmit()
     }
 
     this.ingredientAutocompleteTarget.addEventListener('focus', event => this.fillAutocomplete())

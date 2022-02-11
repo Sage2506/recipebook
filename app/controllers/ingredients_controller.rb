@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class IngredientsController < ApplicationController
-  before_action :authenticate_user!, only: %i[new edit create update destroy]
+  before_action :authenticate_user!, only: %i[new edit create update destroy my_ingredients]
   before_action :set_ingredient, only: %i[show edit update destroy]
 
   def index
@@ -16,6 +16,14 @@ class IngredientsController < ApplicationController
     end
   end
 
+  def my_ingredients
+    @ingredients = if params[:q]
+                     current_user.ingredients.where("lower(name) LIKE ?", "%#{params[:q]}%")
+                   else
+                     current_user.ingredients
+                   end
+  end
+
   def search
     @ingredients = if params[:q]
                      Ingredient.where("lower(name) LIKE ?", "%#{params[:q]}%").all
@@ -26,7 +34,7 @@ class IngredientsController < ApplicationController
   end
 
   def show
-    redirect_to ingredients_path unless @ingredient&.is_active?
+    redirect_to ingredients_path unless @ingredient&.active?
   end
 
   def new
@@ -68,10 +76,10 @@ class IngredientsController < ApplicationController
 
   def destroy
     # @ingredient.destroy
-    @ingredient.status = "inactive"
+    @ingredient.status = 1
     @ingredient.save
     respond_to do |format|
-      format.html { redirect_to ingredients_url, notice: "Ingredient was successfully destroyed.", status: :see_other }
+      format.html { redirect_to ingredients_url, notice: "Ingredient was successfully disabled.", status: :see_other }
       format.json { head :no_content }
     end
   end

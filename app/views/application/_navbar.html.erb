@@ -2,15 +2,20 @@
 <nav class="flex items-center justify-between flex-wrap bg-blue-600 p-6">
   <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
     <div class="text-sm lg:flex-grow">
+    <% if user_signed_in? %>
+      <div class="block mt-4 lg:inline-block lg:mt-0 text-blue-200 text-base mr-4">
+                User: <%= current_user.name.upcase     %>
+            </div>
+            <%end%>
       <%= link_to(user_signed_in? ? authenticated_root_path : root_path, class: 'block mt-4 lg:inline-block lg:mt-0 text-blue-200 text-base hover:text-white mr-4')  do %>
         FoodShareBook
         <% end %>
       <%= link_to "Dishes", dishes_path, class: "block mt-4 lg:inline-block lg:mt-0 text-blue-200 text-base hover:text-white mr-4"  %>
       <%= link_to "Ingredients", ingredients_path, class: "block mt-4 lg:inline-block lg:mt-0 text-blue-200 text-base hover:text-white mr-4"  %>
       <% if user_signed_in? %>
-            <a class="block mt-4 lg:inline-block lg:mt-0 text-blue-200 text-base hover:text-white mr-4">
-                User <%= current_user.name %>
-            </a>
+
+            <%= link_to "My dishes", my_dishes_path, class: "block mt-4 lg:inline-block lg:mt-0 text-blue-200 text-base hover:text-white mr-4" %>
+            <%= link_to "My ingredients", my_ingredients_path, class: "block mt-4 lg:inline-block lg:mt-0 text-blue-200 text-base hover:text-white mr-4" %>
             <% if  current_user.role == 'admin'%>
               <%= link_to "Users", users_path, class: "block mt-4 lg:inline-block lg:mt-0 text-blue-200 text-base hover:text-white mr-4"   %>
             <% end %>
