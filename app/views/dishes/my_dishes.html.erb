@@ -7,14 +7,14 @@
   <% end %>
 
   <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl">Dishes</h1>
+    <h1 class="font-bold text-4xl">My Dishes</h1>
     <% if  user_signed_in? %>
       <%= link_to 'New dish', new_dish_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
     <% end %>
 
   </div>
  <div class="my-5">
-    <form action="/dishes" class="inline">
+    <form action="/my_dishes" class="inline">
       <input type="text" id="q" name="q" placeholder="Busca un platillo" class="focus:ring-indigo-500 py-3 px-5 focus:border-indigo-500 block w-1/2 pl-7 pr-12 sm:text-sm border-gray-300 rounded-md inline-block">
       <input type="submit" value="Buscar" class="rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer ">
     </form>

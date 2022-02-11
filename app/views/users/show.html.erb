@@ -7,7 +7,14 @@
     <%= render @user %>
     <% if user_signed_in? && current_user.admin? %>
     <%= link_to 'Edit this user', edit_user_path(@user), class: "mt-2 rounded-lg py-3 px-5 bg-blue-100 text-blue-500 inline-block font-medium" %>
-
+    <%if current_user.id != @user.id%>
+    <div class="inline-block ml-2">
+      <%= link_to "Delete User", user_path(@user), data: {
+                      turbo_method: :delete,
+                      turbo_confirm: "Are you sure?"
+                    }, class: "mt-2 rounded-lg py-3 px-5 bg-red-50 text-red-500 font-medium" %>
+    </div>
+    <% end %>
     <% end %>
     <%= link_to 'Back to users', users_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
   </div>

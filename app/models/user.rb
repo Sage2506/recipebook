@@ -3,6 +3,7 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  scope :active, -> { where(deactivated: false) }
   enum role: { admin: 0, moderator: 1, volunteer: 2 }
   has_many :ingredients
   has_many :dishes

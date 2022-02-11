@@ -6,10 +6,11 @@ Rails.application.routes.draw do
   resources :ingredients
   get '/search/ingredients', to: 'ingredients#search'
   get 'my_dishes', to: 'dishes#my_dishes'
-  resources :users
+  get 'my_ingredients', to: 'ingredients#my_ingredients'
   devise_for :users, controllers: {
     registrations: 'users/registrations'
   }
+  resources :users
   authenticated do
     root to: 'dishes#index', as: :authenticated_root
   end
