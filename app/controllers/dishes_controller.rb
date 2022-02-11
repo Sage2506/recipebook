@@ -6,7 +6,7 @@ class DishesController < ApplicationController
 
   def index
     @dishes = if params[:q]
-                Dish.where("lower(name) LIKE ?", "%#{params[:q]}%")
+                Dish.where("lower(name) LIKE ?", "%#{params[:q].downcase}%")
               else
                 Dish.all
               end
@@ -17,7 +17,7 @@ class DishesController < ApplicationController
 
   def my_dishes
     @dishes = if params[:q]
-                current_user.dishes.where("lower(name) LIKE ?", "%#{params[:q]}%")
+                current_user.dishes.where("lower(name) LIKE ?", "%#{params[:q].downcase}%")
               else
                 current_user.dishes
               end
